@@ -67,38 +67,6 @@ function DrawUi() {
     index.innerText = `#0${Index + 1}`;
 }
 
-
-
-// ======= Num Timer =============>
-function TimerSlide() {
-    const time_out = setTimeout(TimerSlide, 400);
-    if (timerStart > 0) {
-        timerStart--;
-        timerText.innerText = `${HndelNum(timerStart)}`;
-    } else {
-        clearTimeout(time_out);
-        answerChecker();
-    }
-}
-// ======= Handel Num Timer =============>
-function HndelNum(num) {
-    if (num < 10) {
-        return `0${num}`;
-    } else {
-        return num;
-    }
-}
-
-// =======  Slider Timer =============>
-function lineTimer() {
-    const timer_out_2 = setTimeout(lineTimer, 115);
-    lineWidth < 100 ? lineWidth++ : clearTimeout(timer_out_2);
-    line.style.width = `${lineWidth}%`;
-    deletClasses();
-}
-
-
-
 // =======  Answer checker =============>
 function answerChecker() {
     answer.forEach(e => {
@@ -112,6 +80,48 @@ function answerChecker() {
     });
     btnClicker();
 }
+// ======= Handel Num Timer =============>
+function HndelNum(num) {
+    if (num < 10) {
+        return `0${num}`;
+    } else {
+        return num;
+    }
+}
+
+// ======= Num Timer =============>
+function TimerSlide() {
+    const time_out = setTimeout(TimerSlide, 400);
+    if (timerStart > 0) {
+        timerStart--;
+        timerText.innerText = `${HndelNum(timerStart)}`;
+    } else {
+        clearTimeout(time_out);
+        answerChecker();
+    }
+}
+// =======  Delete Active Items =============>
+
+function deletClasses() {
+    answer.forEach(e => {
+        e.classList.remove('false');
+        e.classList.remove('true');
+    })
+    btn.classList.remove('active-btn');
+    btn.removeEventListener('click', click);
+}
+
+// =======  Slider Timer =============>
+function lineTimer() {
+    const timer_out_2 = setTimeout(lineTimer, 115);
+    lineWidth < 100 ? lineWidth++ : clearTimeout(timer_out_2);
+    line.style.width = `${lineWidth}%`;
+    deletClasses();
+}
+
+
+
+
 
 
 // =======  Slide Sections =============>
@@ -133,16 +143,6 @@ function click() {
         scoresContent.classList.add('active_score');
         scores_data.innerText = `${scoures}/4`
     }
-}
-// =======  Delete Active Items =============>
-
-function deletClasses() {
-    answer.forEach(e => {
-        e.classList.remove('false');
-        e.classList.remove('true');
-    })
-    btn.classList.remove('active-btn');
-    btn.removeEventListener('click', click);
 }
 
 
