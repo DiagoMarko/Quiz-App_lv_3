@@ -1,4 +1,4 @@
-var data = [
+const data = [
     {
         index: '#1',
         quest: 'Javascript is an _______ language?',
@@ -7,6 +7,8 @@ var data = [
         c: 'Procedural',
         answer: 'a'
     },
+
+
     {
         index: '#2',
         quest: 'Which of the following keywords is used to define a variable in Javascript?',
@@ -31,43 +33,48 @@ var data = [
         c: 'Gives a warning',
         answer: 'b'
     },
-];
-var quest = document.querySelector('.quest');
-var answer = document.querySelectorAll('.answer');
-var btn = document.querySelector('.next');
-var repeat = document.querySelector('.repeat');
-var line = document.querySelector('.line');
-var index = document.querySelector('.index');
-var timerText = document.querySelector('.timer');
-var spans = document.querySelectorAll('.pd span');
-var scores_data = document.querySelector('.scores h1');
-var scoresContent = document.querySelector('.scores');
-var timerStart = 30;
-var Index = 0;
-var lineWidth = 0;
-var scoures = 0;
-window.onload = function () {
+]
+
+const quest = document.querySelector('.quest') as HTMLElement;
+const answer = document.querySelectorAll('.answer') as NodeListOf<HTMLInputElement>;
+const btn = document.querySelector('.next');
+const repeat = document.querySelector('.repeat')
+const line = document.querySelector('.line') as HTMLElement;
+const index = document.querySelector('.index') as HTMLElement;
+const timerText = document.querySelector('.timer') as HTMLElement;
+const spans = document.querySelectorAll('.pd span');
+const scores_data = document.querySelector('.scores h1') as HTMLElement;
+const scoresContent = document.querySelector('.scores');
+let timerStart = 30;
+let Index = 0;
+let lineWidth = 0;
+let scoures = 0;
+
+
+
+window.onload = () => {
     DrawUi();
     TimerSlide();
     lineTimer();
-};
+}
+
 // =======  Draw Ui =============>
 function DrawUi() {
     quest.innerText = data[Index].quest;
     answer[0].innerText = data[Index].a;
     answer[1].innerText = data[Index].b;
     answer[2].innerText = data[Index].c;
-    index.innerText = "#0".concat(Index + 1);
+    index.innerText = `#0${Index + 1}`;
 }
+
 // =======  Answer checker =============>
 function answerChecker() {
-    answer.forEach(function (e) {
+    answer.forEach(e => {
         if (e.getAttribute('answer') == data[Index].answer) {
-            e.innerHTML += "<img src=\"./icons/correct.svg\" alt=\"\"></img>";
+            e.innerHTML += `<img src="./icons/correct.svg" alt=""></img>`;
             e.classList.add('true');
-        }
-        else {
-            e.innerHTML += "<img src=\"./icons/false.svg\" alt=\"\"></img>";
+        } else {
+            e.innerHTML += `<img src="./icons/false.svg" alt=""></img>`;
             e.classList.add('false');
         }
     });
@@ -76,38 +83,39 @@ function answerChecker() {
 // ======= Handel Num Timer =============>
 function HndelNum(num) {
     if (num < 10) {
-        return "0".concat(num);
-    }
-    else {
+        return `0${num}`;
+    } else {
         return num;
     }
 }
+
 // ======= Num Timer =============>
 function TimerSlide() {
-    var time_out = setTimeout(TimerSlide, 400);
+    const time_out = setTimeout(TimerSlide, 400);
     if (timerStart > 0) {
         timerStart--;
-        timerText.innerText = "".concat(HndelNum(timerStart));
-    }
-    else {
+        timerText.innerText = `${HndelNum(timerStart)}`;
+    } else {
         clearTimeout(time_out);
         answerChecker();
     }
 }
 // =======  Delete Active Items =============>
+
 function deletClasses() {
-    answer.forEach(function (e) {
+    answer.forEach(e => {
         e.classList.remove('false');
         e.classList.remove('true');
-    });
+    })
     btn.classList.remove('active-btn');
     btn.removeEventListener('click', click);
 }
+
 // =======  Slider Timer =============>
 function lineTimer() {
-    var timer_out_2 = setTimeout(lineTimer, 115);
+    const timer_out_2 = setTimeout(lineTimer, 115);
     lineWidth < 100 ? lineWidth++ : clearTimeout(timer_out_2);
-    line.style.width = "".concat(lineWidth, "%");
+    line.style.width = `${lineWidth}%`;
     deletClasses();
 }
 // =======  Slide Sections =============>
@@ -123,18 +131,19 @@ function click() {
         DrawUi();
         TimerSlide();
         lineTimer();
-    }
-    else {
+    } else {
         repeat.classList.add('active-btn');
         btn.classList.remove('active-btn');
         scoresContent.classList.add('active_score');
-        scores_data.innerText = "".concat(scoures, "/4");
+        scores_data.innerText = `${scoures}/4`
     }
 }
+
+
 // =======  Rest Data =============>
-answer.forEach(function (ele) {
+answer.forEach(ele => {
     ele.addEventListener('click', checkerAnswers);
-});
+})
 function checkerAnswers(e) {
     if (e.target.getAttribute('answer') == data[Index].answer && e.target.classList.contains('true') != true) {
         scoures++;
@@ -142,8 +151,9 @@ function checkerAnswers(e) {
     timerStart = 0;
     lineWidth = 100;
 }
+
 // =======  Reapeat Data Quiz =============>
-repeat.addEventListener('click', function (e) {
+repeat.addEventListener('click', (e) => {
     if (Index == data.length - 1) {
         Index = 0;
         lineWidth = 0;
@@ -152,8 +162,8 @@ repeat.addEventListener('click', function (e) {
         DrawUi();
         TimerSlide();
         lineTimer();
-        var ele = e.target;
+        const ele = e.target as HTMLElement;
         ele.classList.remove('active-btn');
         scoresContent.classList.remove('active_score');
     }
-});
+})
