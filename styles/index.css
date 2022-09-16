@@ -133,7 +133,9 @@ body {
     user-select: none;
 }
 
-
+.pep{
+    color:red;
+}
 
 .false {
     background-color: var(--lightRedColor) !important;
